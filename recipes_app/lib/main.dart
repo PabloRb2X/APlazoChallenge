@@ -6,12 +6,14 @@ import 'package:recipes_app/features/main_recipes/data/repositories/meal_reposit
 import 'package:recipes_app/features/main_recipes/domain/usecases/fetch_all_meals.dart';
 import 'package:recipes_app/features/main_recipes/presentation/bloc/meal_bloc.dart';
 import 'package:recipes_app/features/main_recipes/presentation/pages/meal_page.dart';
+import 'core/dependency_injection/injection_container.dart' as di;
 
 void main() {
   final client = http.Client();
   final dataSource = MealDataSource(client);
   final repository = MealRepositoryImpl(dataSource);
   final usecase = FetchAllMealsUseCase(repository);
+  di.init();
 
   runApp(MyApp(usecase));
 }
