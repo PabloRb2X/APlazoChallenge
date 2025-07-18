@@ -1,4 +1,4 @@
-import 'package:recipes_app/features/meal_detail/domain/entities/meal_detail.dart';
+import 'package:recipes_app/features/meal_detail/data/entities/meal_detail.dart';
 import 'package:recipes_app/features/meal_detail/domain/repositories/meal_detail_repository.dart';
 
 class FetchMealDetailUseCase {

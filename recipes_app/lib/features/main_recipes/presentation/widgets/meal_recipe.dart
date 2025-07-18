@@ -1,18 +1,21 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipes_app/core/dependency_injection/injection_container.dart';
 import 'package:recipes_app/core/design_system/design_system_dimension.dart';
 import 'package:recipes_app/core/design_system/design_system_text_style.dart';
 import 'package:recipes_app/features/main_recipes/domain/entities/meal.dart';
 import 'package:recipes_app/features/main_recipes/presentation/miscelaneous/meal_constants.dart';
-import 'package:recipes_app/features/meal_detail/presentation/bloc/meal_detail_bloc.dart';
-import 'package:recipes_app/features/meal_detail/presentation/bloc/meal_detail_event.dart';
-import 'package:recipes_app/features/meal_detail/presentation/pages/meal_detail_page.dart';
+import 'package:recipes_app/core/navigation/app_router.dart';
+import 'package:recipes_app/features/main_recipes/presentation/navigation/meals_wireframe.dart';
 
 class MealRecipe extends StatelessWidget {
-  const MealRecipe({super.key, required this.meal});
+  const MealRecipe({
+    super.key,
+    required this.meal,
+    required this.wireframe,
+  });
 
   final Meal meal;
+  final MealsWireframe wireframe;
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +35,7 @@ class MealRecipe extends StatelessWidget {
         child: InkWell(
           borderRadius:
               BorderRadius.circular(MealConstants.cardRecipeImageCornerRadius),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                  create: (_) => getItInstance<MealDetailBloc>()
-                    ..add(FetchMealDetail(meal.id)),
-                  child: MealDetailPage(mealId: meal.id),
-                ),
-              ),
-            );
-          },
+          onTap: () => wireframe.openMealDetail(meal.id),
           child: Row(
             children: [
               ClipRRect(

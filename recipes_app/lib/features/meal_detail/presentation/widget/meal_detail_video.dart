@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipes_app/core/design_system/design_system_dimension.dart';
 import 'package:recipes_app/core/design_system/design_system_text_style.dart';
-import 'package:recipes_app/features/meal_detail/domain/entities/meal_detail.dart';
+import 'package:recipes_app/features/meal_detail/data/entities/meal_detail.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MealDetailVideo extends StatefulWidget {

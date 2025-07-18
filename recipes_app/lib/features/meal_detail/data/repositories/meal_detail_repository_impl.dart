@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:recipes_app/features/meal_detail/domain/entities/meal_detail.dart';
+import 'package:recipes_app/features/meal_detail/data/entities/meal_detail.dart';
 import 'dart:convert';
 
 import 'package:recipes_app/features/meal_detail/domain/repositories/meal_detail_repository.dart';

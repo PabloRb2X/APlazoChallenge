@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/core/design_system/design_system_dimension.dart';
 import 'package:recipes_app/core/design_system/full_screen_loader.dart';
+import 'package:recipes_app/features/main_recipes/presentation/navigation/meals_wireframe.dart';
 import 'package:recipes_app/features/main_recipes/presentation/widgets/meal_recipe.dart';
 import 'package:recipes_app/features/main_recipes/presentation/widgets/meal_recipe_error.dart';
 import '../bloc/meal_bloc.dart';
@@ -75,6 +76,7 @@ class _MealPageState extends State<MealPage> {
 
                     return MealRecipe(
                       meal: meal,
+                      wireframe: MealsWireframeImpl(),
                     );
                   },
                 );

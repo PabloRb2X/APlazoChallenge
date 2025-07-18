@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipes_app/core/design_system/design_system_text_style.dart';
-import 'package:recipes_app/features/meal_detail/domain/entities/meal_detail.dart';
+import 'package:recipes_app/features/meal_detail/data/entities/meal_detail.dart';
 import 'package:recipes_app/features/meal_detail/presentation/miscelaneous/meal_detail_constants.dart';
 import 'package:recipes_app/features/meal_detail/presentation/widget/meal_detail_header.dart';
 import 'package:recipes_app/features/meal_detail/presentation/widget/meal_detail_ingredients.dart';

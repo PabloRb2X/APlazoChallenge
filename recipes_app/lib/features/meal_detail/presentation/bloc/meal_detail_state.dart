@@ -1,4 +1,4 @@
-import '../../domain/entities/meal_detail.dart';
+import '../../data/entities/meal_detail.dart';
 
 abstract class MealDetailState {}
 
