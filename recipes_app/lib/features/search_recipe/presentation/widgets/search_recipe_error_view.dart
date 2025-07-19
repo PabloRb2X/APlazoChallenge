@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipes_app/features/main_recipes/presentation/bloc/meal_bloc.dart';
-import 'package:recipes_app/features/main_recipes/presentation/bloc/meal_event.dart';
+import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_bloc.dart';
+import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_event.dart';
 
-class MealRecipeError extends StatelessWidget {
-  const MealRecipeError({super.key});
+class SearchRecipeErrorView extends StatelessWidget {
+  const SearchRecipeErrorView({super.key, required this.mealName});
+
+  final String mealName;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,9 @@ class MealRecipeError extends StatelessWidget {
           const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: () {
-              context.read<MealBloc>().add(FetchMeals());
+              context
+                  .read<SearchRecipeBloc>()
+                  .add(SearchRecipeByName(mealName));
             },
             icon: const Icon(Icons.refresh),
             label: const Text('Retry'),

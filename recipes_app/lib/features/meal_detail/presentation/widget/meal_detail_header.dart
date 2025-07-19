@@ -89,6 +89,7 @@ class _MealHeaderBody extends StatelessWidget {
                                   style: DesignSystemTextStyle.body1,
                                   textAlign: TextAlign.center,
                                 ),
+                                duration: Duration(seconds: 1),
                               ),
                             );
                           }

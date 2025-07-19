@@ -51,7 +51,7 @@ class _MealDetailIngredientsState extends State<MealDetailIngredients> {
                 top: DesignSystemDimension.spacing_3,
               ),
               child: Text(
-                _showAllIngredients ? 'See less' : 'See more',
+                _showAllIngredients ? 'Show less' : 'Show more',
                 style: DesignSystemTextStyle.body2.copyWith(
                   color: Colors.blue,
                   fontWeight: FontWeight.bold,

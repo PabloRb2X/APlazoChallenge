@@ -47,7 +47,7 @@ class _MealDetailPreparationState extends State<MealDetailPreparation> {
             });
           },
           child: Text(
-            _showFullInstructions ? 'See less' : 'See more',
+            _showFullInstructions ? 'Show less' : 'Show more',
             style: DesignSystemTextStyle.body2.copyWith(
               color: Colors.blue,
               fontWeight: FontWeight.bold,

@@ -5,6 +5,8 @@ import 'package:recipes_app/core/dependency_injection/injection_container.dart';
 import 'package:recipes_app/features/meal_detail/presentation/bloc/meal_detail_bloc.dart';
 import 'package:recipes_app/features/meal_detail/presentation/bloc/meal_detail_event.dart';
 import 'package:recipes_app/features/meal_detail/presentation/pages/meal_detail_page.dart';
+import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_bloc.dart';
+import 'package:recipes_app/features/search_recipe/presentation/pages/search_recipe_page.dart';
 
 class AppRouter {
   static final FluroRouter router = FluroRouter();
@@ -32,6 +34,19 @@ class AppRouter {
         );
       },
       transitionDuration: const Duration(milliseconds: 300),
+    );
+
+    router.define(
+      '/searchMeal/',
+      handler: Handler(
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+          return BlocProvider(
+            create: (_) => getItInstance<SearchRecipeBloc>(),
+            child: SearchRecipePage(),
+          );
+        },
+      ),
+      transitionType: TransitionType.native,
     );
   }
 }

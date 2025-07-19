@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/core/design_system/design_system_dimension.dart';
+import 'package:recipes_app/core/design_system/design_system_text_style.dart';
 import 'package:recipes_app/core/design_system/full_screen_loader.dart';
 import 'package:recipes_app/features/main_recipes/presentation/navigation/meals_wireframe.dart';
 import 'package:recipes_app/features/main_recipes/presentation/widgets/meal_recipe.dart';
@@ -52,8 +53,21 @@ class _MealPageState extends State<MealPage> {
 
   @override
   Widget build(BuildContext context) {
+    final wireframe = MealsWireframeImpl();
+
     return Scaffold(
-      appBar: AppBar(title: const Text('All meals for us')),
+      appBar: AppBar(
+        title: const Text(
+          'All meals for us',
+          style: DesignSystemTextStyle.headline2,
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => wireframe.openSearchRecipe(),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: DesignSystemDimension.spacing_3),
@@ -76,14 +90,14 @@ class _MealPageState extends State<MealPage> {
 
                     return MealRecipe(
                       meal: meal,
-                      wireframe: MealsWireframeImpl(),
+                      wireframe: wireframe,
                     );
                   },
                 );
               }
 
               if (state is MealError) {
-                return MealRecipeError(state: state);
+                return MealRecipeError();
               }
 
               return const SizedBox.shrink();

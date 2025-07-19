@@ -8,6 +8,10 @@ import 'package:recipes_app/features/meal_detail/data/repositories/meal_detail_r
 import 'package:recipes_app/features/meal_detail/domain/repositories/meal_detail_repository.dart';
 import 'package:recipes_app/features/meal_detail/domain/usecases/fetch_meal_detail_usecase.dart';
 import 'package:recipes_app/features/meal_detail/presentation/bloc/meal_detail_bloc.dart';
+import 'package:recipes_app/features/search_recipe/data/repositories/search_recipe_repository_impl.dart';
+import 'package:recipes_app/features/search_recipe/domain/repositories/search_recipe_repository.dart';
+import 'package:recipes_app/features/search_recipe/domain/usecases/search_recipe_by_name_usecase.dart';
+import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getItInstance = GetIt.instance;
@@ -21,6 +25,8 @@ void init(SharedPreferences prefs) {
   // Repositories
   getItInstance.registerLazySingleton<MealDetailRepository>(
       () => MealDetailRepositoryImpl());
+  getItInstance.registerLazySingleton<SearchRecipeRepository>(
+      () => SearchRecipeRepositoryImpl());
 
   // UseCases
   getItInstance
@@ -35,4 +41,9 @@ void init(SharedPreferences prefs) {
   getItInstance
       .registerLazySingleton(() => RemoveFromFavoritesUseCase(getItInstance()));
   getItInstance.registerLazySingleton(() => IsFavoriteUseCase(getItInstance()));
+
+  // BLoCs Search
+  getItInstance.registerFactory(() => SearchRecipeBloc(getItInstance()));
+  getItInstance
+      .registerLazySingleton(() => SearchRecipeByNameUseCase(getItInstance()));
 }
