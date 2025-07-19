@@ -26,7 +26,7 @@ class MealDataSource {
 
       if (mealsJson != null) {
         allMeals.addAll(
-          (mealsJson as List).map((e) => MealModel.fromJson(e)),
+          (mealsJson as List).map((meal) => MealModel.fromJson(meal)),
         );
       }
     }

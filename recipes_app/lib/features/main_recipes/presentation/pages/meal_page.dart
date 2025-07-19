@@ -27,6 +27,7 @@ class _MealPageState extends State<MealPage> {
 
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
+
     return currentScroll >= (maxScroll * 0.9);
   }
 
@@ -55,53 +56,65 @@ class _MealPageState extends State<MealPage> {
   Widget build(BuildContext context) {
     final wireframe = MealsWireframeImpl();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'All meals for us',
-          style: DesignSystemTextStyle.headline2,
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => wireframe.openSearchRecipe(),
-          ),
-        ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(top: DesignSystemDimension.spacing_3),
-          child: BlocBuilder<MealBloc, MealState>(
-            builder: (context, state) {
-              if (state is MealLoading) {
-                return const Center(child: FullScreenLoader());
-              }
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text(
+            'Meals Recipes',
+            style: DesignSystemTextStyle.h4Bold.copyWith(color: Colors.white),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              iconSize: 30,
+              color: Colors.white,
+              onPressed: () => wireframe.openSearchRecipe(),
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding:
+                const EdgeInsets.only(top: DesignSystemDimension.spacing_3),
+            child: BlocBuilder<MealBloc, MealState>(
+              builder: (context, state) {
+                if (state is MealLoading) {
+                  return const Center(child: FullScreenLoader());
+                }
 
-              if (state is MealLoaded) {
-                return ListView.builder(
-                  controller: _scrollController,
-                  itemCount: state.meals.length + (state.hasReachedEnd ? 0 : 1),
-                  itemBuilder: (context, index) {
-                    if (index >= state.meals.length) {
-                      return const Center(child: FullScreenLoader());
-                    }
+                if (state is MealLoaded) {
+                  return ListView.builder(
+                    controller: _scrollController,
+                    itemCount:
+                        state.meals.length + (state.hasReachedEnd ? 0 : 1),
+                    itemBuilder: (context, index) {
+                      final meal = state.meals[index];
 
-                    final meal = state.meals[index];
+                      return MealRecipe(
+                        meal: meal,
+                        wireframe: wireframe,
+                      );
+                    },
+                  );
+                }
 
-                    return MealRecipe(
-                      meal: meal,
-                      wireframe: wireframe,
-                    );
-                  },
-                );
-              }
+                if (state is MealError) {
+                  return MealRecipeError();
+                }
 
-              if (state is MealError) {
-                return MealRecipeError();
-              }
-
-              return const SizedBox.shrink();
-            },
+                return const SizedBox.shrink();
+              },
+            ),
           ),
         ),
       ),

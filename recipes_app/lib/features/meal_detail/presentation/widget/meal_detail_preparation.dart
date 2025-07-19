@@ -25,7 +25,9 @@ class _MealDetailPreparationState extends State<MealDetailPreparation> {
       children: [
         Text(
           'Preparation: ',
-          style: DesignSystemTextStyle.body1,
+          style: DesignSystemTextStyle.headline1.copyWith(
+            color: Colors.white,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(
@@ -37,7 +39,9 @@ class _MealDetailPreparationState extends State<MealDetailPreparation> {
             overflow: _showFullInstructions
                 ? TextOverflow.visible
                 : TextOverflow.ellipsis,
-            style: DesignSystemTextStyle.body2,
+            style: DesignSystemTextStyle.body2.copyWith(
+              color: Colors.white,
+            ),
           ),
         ),
         GestureDetector(
@@ -48,9 +52,11 @@ class _MealDetailPreparationState extends State<MealDetailPreparation> {
           },
           child: Text(
             _showFullInstructions ? 'Show less' : 'Show more',
-            style: DesignSystemTextStyle.body2.copyWith(
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
+            style: DesignSystemTextStyle.body1.copyWith(
+              color: Colors.white,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.white,
+              decorationStyle: TextDecorationStyle.solid,
             ),
           ),
         ),

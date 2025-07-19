@@ -61,7 +61,10 @@ class _MealHeaderBody extends StatelessWidget {
             children: [
               Text(
                 mealDetailData.strMeal,
-                style: DesignSystemTextStyle.headline1,
+                style: DesignSystemTextStyle.h5Bold.copyWith(
+                  color: Colors.white,
+                ),
+                maxLines: 1,
               ),
               _buildDataText('Category: ', mealDetailData.strCategory),
               _buildDataText('Area: ', mealDetailData.strArea),
@@ -100,7 +103,9 @@ class _MealHeaderBody extends StatelessWidget {
                           isFavorite
                               ? 'Added to favorites'
                               : 'Add to favorites',
-                          style: DesignSystemTextStyle.caption2,
+                          style: DesignSystemTextStyle.caption2.copyWith(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
@@ -117,8 +122,14 @@ class _MealHeaderBody extends StatelessWidget {
   Text _buildDataText(String name, String value) => Text.rich(
         TextSpan(
           children: [
-            TextSpan(text: name, style: DesignSystemTextStyle.body1),
-            TextSpan(text: value, style: DesignSystemTextStyle.body2),
+            TextSpan(
+              text: name,
+              style: DesignSystemTextStyle.body1.copyWith(color: Colors.white),
+            ),
+            TextSpan(
+              text: value,
+              style: DesignSystemTextStyle.body2.copyWith(color: Colors.white),
+            ),
           ],
         ),
       );

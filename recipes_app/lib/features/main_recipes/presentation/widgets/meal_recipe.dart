@@ -25,7 +25,7 @@ class MealRecipe extends StatelessWidget {
         vertical: DesignSystemDimension.spacing_4,
       ),
       child: Material(
-        color: Colors.white,
+        color: Colors.white.withValues(alpha: 0.8),
         borderRadius:
             BorderRadius.circular(MealConstants.cardRecipeImageCornerRadius),
         elevation: 4,

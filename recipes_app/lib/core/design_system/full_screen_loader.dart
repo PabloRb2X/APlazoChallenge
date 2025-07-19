@@ -6,13 +6,13 @@ class FullScreenLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ColoredBox(
-      color: Colors.white70,
+      color: Colors.transparent,
       child: Center(
         child: SizedBox(
           width: 80,
           height: 80,
           child: CircularProgressIndicator(
-            color: Colors.deepPurple,
+            color: Colors.white,
           ),
         ),
       ),

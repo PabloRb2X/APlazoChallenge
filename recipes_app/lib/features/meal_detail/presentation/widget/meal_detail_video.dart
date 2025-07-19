@@ -46,7 +46,9 @@ class _MealDetailVideo extends State<MealDetailVideo> {
         children: [
           Text(
             'Explanation video: ',
-            style: DesignSystemTextStyle.body1,
+            style: DesignSystemTextStyle.headline1.copyWith(
+              color: Colors.white,
+            ),
           ),
           YoutubePlayer(
             controller: soundestController,

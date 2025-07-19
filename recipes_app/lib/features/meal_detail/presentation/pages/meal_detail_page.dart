@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/core/dependency_injection/injection_container.dart';
 import 'package:recipes_app/core/design_system/design_system_text_style.dart';
+import 'package:recipes_app/core/design_system/full_screen_loader.dart';
 import 'package:recipes_app/features/meal_detail/presentation/widget/meal_detail_content.dart';
 import '../bloc/meal_detail_bloc.dart';
 import '../bloc/meal_detail_event.dart';
@@ -17,26 +18,40 @@ class MealDetailPage extends StatelessWidget {
     return BlocProvider(
       create: (_) =>
           getItInstance<MealDetailBloc>()..add(FetchMealDetail(mealId)),
-      child: Scaffold(
-        appBar: AppBar(
-            title: const Text(
-          'Recipe details',
-          style: DesignSystemTextStyle.headline2,
-        )),
-        body: BlocBuilder<MealDetailBloc, MealDetailState>(
-          builder: (context, state) {
-            if (state is MealDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is MealDetailLoaded) {
-              final mealDetailData = state.mealDetail;
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text(
+              'Recipe details',
+              style: DesignSystemTextStyle.h4Bold.copyWith(color: Colors.white),
+            ),
+            iconTheme: const IconThemeData(color: Colors.white),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: BlocBuilder<MealDetailBloc, MealDetailState>(
+            builder: (context, state) {
+              if (state is MealDetailLoading) {
+                return const Center(child: FullScreenLoader());
+              } else if (state is MealDetailLoaded) {
+                final mealDetailData = state.mealDetail;
 
-              return MealDetailContent(mealDetailData: mealDetailData);
-            } else if (state is MealDetailError) {
-              return Center(child: Text(state.message));
-            }
+                return MealDetailContent(mealDetailData: mealDetailData);
+              } else if (state is MealDetailError) {
+                return Center(child: Text(state.message));
+              }
 
-            return const SizedBox.shrink();
-          },
+              return const SizedBox.shrink();
+            },
+          ),
         ),
       ),
     );

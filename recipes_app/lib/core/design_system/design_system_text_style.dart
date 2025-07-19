@@ -140,6 +140,15 @@ class DesignSystemTextStyle {
     letterSpacing: 0,
   );
 
+  static const h5Bold = TextStyle(
+    fontFamily: fontSans,
+    fontStyle: FontStyle.normal,
+    fontSize: 21,
+    fontWeight: FontWeight.w900,
+    height: 24 / 21,
+    letterSpacing: 0,
+  );
+
   static const headline1 = TextStyle(
     fontFamily: fontSans,
     fontStyle: FontStyle.normal,

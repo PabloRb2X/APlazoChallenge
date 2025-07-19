@@ -55,56 +55,89 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
   Widget build(BuildContext context) {
     final wireframe = MealsWireframeImpl();
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Search Recipes')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: TextField(
-              controller: controller,
-              decoration: const InputDecoration(
-                hintText: 'Enter recipe name',
-                hintStyle: DesignSystemTextStyle.body2,
-                suffixIcon: Icon(Icons.search),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Search Recipes',
+            style: DesignSystemTextStyle.h4Bold.copyWith(
+              color: Colors.white,
+            ),
+          ),
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        backgroundColor: Colors.transparent,
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  hintText: 'Enter recipe name',
+                  hintStyle: DesignSystemTextStyle.body2.copyWith(
+                    color: Colors.white,
+                  ),
+                  suffixIcon: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+                style: DesignSystemTextStyle.body1.copyWith(
+                  color: Colors.white,
+                ),
+                onChanged: _onSearchChanged,
               ),
-              style: DesignSystemTextStyle.body1,
-              onChanged: _onSearchChanged,
             ),
-          ),
-          Expanded(
-            child: BlocBuilder<SearchRecipeBloc, SearchRecipeState>(
-              builder: (context, state) {
-                if (state is SearchRecipeLoading) {
-                  return const Center(child: FullScreenLoader());
-                } else if (state is SearchRecipeLoaded) {
-                  return ListView.builder(
-                    itemCount: state.mealsDetail.length,
-                    itemBuilder: (context, index) {
-                      final recipe = state.mealsDetail[index];
-                      final meal = Meal(
-                        id: recipe.idMeal,
-                        name: recipe.strMeal,
-                        thumbnail: recipe.strMealThumb,
-                      );
+            Expanded(
+              child: BlocBuilder<SearchRecipeBloc, SearchRecipeState>(
+                builder: (context, state) {
+                  if (state is SearchRecipeLoading) {
+                    return const Center(child: FullScreenLoader());
+                  } else if (state is SearchRecipeLoaded) {
+                    return ListView.builder(
+                      itemCount: state.mealsDetail.length,
+                      itemBuilder: (context, index) {
+                        final recipe = state.mealsDetail[index];
+                        final meal = Meal(
+                          id: recipe.idMeal,
+                          name: recipe.strMeal,
+                          thumbnail: recipe.strMealThumb,
+                        );
 
-                      return MealRecipe(
-                        meal: meal,
-                        wireframe: wireframe,
-                      );
-                    },
-                  );
-                } else if (state is SearchRecipeError) {
-                  return SearchRecipeErrorView(
-                    mealName: controller.text,
-                  );
-                }
+                        return MealRecipe(
+                          meal: meal,
+                          wireframe: wireframe,
+                        );
+                      },
+                    );
+                  } else if (state is SearchRecipeError) {
+                    return SearchRecipeErrorView(
+                      mealName: controller.text,
+                    );
+                  }
 
-                return const SizedBox.shrink();
-              },
+                  return const SizedBox.shrink();
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

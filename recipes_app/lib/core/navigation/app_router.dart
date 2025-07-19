@@ -17,6 +17,7 @@ class AppRouter {
       handler: Handler(
         handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
           final id = params['id']?.first;
+
           return BlocProvider(
             create: (_) =>
                 getItInstance<MealDetailBloc>()..add(FetchMealDetail(id ?? '')),
@@ -46,7 +47,30 @@ class AppRouter {
           );
         },
       ),
-      transitionType: TransitionType.native,
+      transitionType: TransitionType.custom,
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final curved =
+            CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+
+        final offsetAnimation = Tween<Offset>(
+          begin: const Offset(0, 0.1), // desde abajo
+          end: Offset.zero,
+        ).animate(curved);
+
+        final fadeAnimation = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(curved);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: FadeTransition(
+            opacity: fadeAnimation,
+            child: child,
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
     );
   }
 }

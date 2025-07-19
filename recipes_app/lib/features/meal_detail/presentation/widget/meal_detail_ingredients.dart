@@ -25,7 +25,9 @@ class _MealDetailIngredientsState extends State<MealDetailIngredients> {
       children: [
         Text(
           'Ingredients: ',
-          style: DesignSystemTextStyle.body1,
+          style: DesignSystemTextStyle.headline1.copyWith(
+            color: Colors.white,
+          ),
         ),
         ...baseIngredients.$2.map((ingredient) {
           return Padding(
@@ -34,7 +36,9 @@ class _MealDetailIngredientsState extends State<MealDetailIngredients> {
             ),
             child: Text(
               '• $ingredient',
-              style: DesignSystemTextStyle.caption2,
+              style: DesignSystemTextStyle.caption2.copyWith(
+                color: Colors.white,
+              ),
             ),
           );
         }),
@@ -52,9 +56,11 @@ class _MealDetailIngredientsState extends State<MealDetailIngredients> {
               ),
               child: Text(
                 _showAllIngredients ? 'Show less' : 'Show more',
-                style: DesignSystemTextStyle.body2.copyWith(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
+                style: DesignSystemTextStyle.body1.copyWith(
+                  color: Colors.white,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white,
+                  decorationStyle: TextDecorationStyle.solid,
                 ),
               ),
             ),

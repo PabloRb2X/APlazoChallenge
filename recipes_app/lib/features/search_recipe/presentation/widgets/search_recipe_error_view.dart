@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipes_app/core/design_system/design_system_dimension.dart';
 import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_bloc.dart';
 import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_event.dart';
 
@@ -18,15 +19,17 @@ class SearchRecipeErrorView extends StatelessWidget {
             'An error has happened, would you like to retry?',
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
-            onPressed: () {
-              context
-                  .read<SearchRecipeBloc>()
-                  .add(SearchRecipeByName(mealName));
-            },
-            icon: const Icon(Icons.refresh),
-            label: const Text('Retry'),
+          Padding(
+            padding: EdgeInsets.only(top: DesignSystemDimension.spacing_5),
+            child: ElevatedButton.icon(
+              onPressed: () {
+                context
+                    .read<SearchRecipeBloc>()
+                    .add(SearchRecipeByName(mealName));
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text('Retry'),
+            ),
           ),
         ],
       ),
