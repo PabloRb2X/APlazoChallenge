@@ -1,93 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/core/dependency_injection/injection_container.dart';
 import 'package:recipes_app/core/design_system/design_system_dimension.dart';
 import 'package:recipes_app/core/design_system/design_system_text_style.dart';
 import 'package:recipes_app/features/favorites/domain/entities/favorite_meal.dart';
-import 'package:recipes_app/features/favorites/domain/usecases/add_to_favorites.dart';
-import 'package:recipes_app/features/favorites/domain/usecases/is_favorite.dart';
-import 'package:recipes_app/features/favorites/domain/usecases/remove_from_favorites.dart';
 import 'package:recipes_app/features/meal_detail/data/entities/meal_detail.dart';
+import 'package:recipes_app/features/meal_detail/presentation/bloc/favorite_cubit.dart';
 import 'package:recipes_app/features/meal_detail/presentation/miscelaneous/meal_detail_constants.dart';
 
-class MealDetailHeader extends StatefulWidget {
+class MealDetailHeader extends StatelessWidget {
   const MealDetailHeader({super.key, required this.mealDetailData});
 
   final MealDetailData mealDetailData;
 
   @override
-  State<MealDetailHeader> createState() => _MealDetailHeaderState();
+  Widget build(BuildContext context) {
+    final meal = FavoriteMeal(
+      id: mealDetailData.idMeal,
+      name: mealDetailData.strMeal,
+      thumbnail: mealDetailData.strMealThumb,
+    );
+
+    return BlocProvider(
+      create: (_) => FavoriteCubit(
+        meal: meal,
+        isFavoriteUseCase: getItInstance(),
+        addToFavoritesUseCase: getItInstance(),
+        removeFromFavoritesUseCase: getItInstance(),
+      ),
+      child: _MealHeaderBody(mealDetailData: mealDetailData),
+    );
+  }
 }
 
-class _MealDetailHeaderState extends State<MealDetailHeader> {
-  late FavoriteMeal favoriteMeal;
-  bool isFavorite = false;
+class _MealHeaderBody extends StatelessWidget {
+  const _MealHeaderBody({required this.mealDetailData});
 
-  @override
-  void initState() {
-    super.initState();
-
-    favoriteMeal = FavoriteMeal(
-      id: widget.mealDetailData.idMeal,
-      name: widget.mealDetailData.strMeal,
-      thumbnail: widget.mealDetailData.strMealThumb,
-    );
-
-    _loadFavoriteStatus();
-  }
-
-  Future<void> _loadFavoriteStatus() async {
-    final check = getItInstance<IsFavoriteUseCase>();
-    final result = await check(widget.mealDetailData.idMeal);
-
-    setState(() {
-      isFavorite = result;
-    });
-  }
-
-  Future<void> _toggleFavorite() async {
-    if (!mounted) return;
-
-    if (isFavorite) {
-      final remove = getItInstance<RemoveFromFavoritesUseCase>();
-
-      await remove(favoriteMeal.id);
-    } else {
-      final add = getItInstance<AddToFavoritesUseCase>();
-
-      await add(favoriteMeal);
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      isFavorite = !isFavorite;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          isFavorite ? 'Added to favorites' : 'Deleted from favorites',
-          style: DesignSystemTextStyle.body1,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
+  final MealDetailData mealDetailData;
 
   @override
   Widget build(BuildContext context) {
-    final radius = Radius.circular(MealDetailConstants.recipeImageCornerRadius);
-
     return Row(
       spacing: DesignSystemDimension.spacing_3,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.all(radius),
+          borderRadius: BorderRadius.circular(
+            MealDetailConstants.recipeImageCornerRadius,
+          ),
           child: Image.network(
-            widget.mealDetailData.strMealThumb,
-            fit: BoxFit.cover,
+            mealDetailData.strMealThumb,
             width: MealDetailConstants.recipeImageWidth,
             height: MealDetailConstants.recipeImageHeight,
+            fit: BoxFit.cover,
           ),
         ),
         Expanded(
@@ -96,26 +60,51 @@ class _MealDetailHeaderState extends State<MealDetailHeader> {
             spacing: DesignSystemDimension.spacing_3,
             children: [
               Text(
-                widget.mealDetailData.strMeal,
+                mealDetailData.strMeal,
                 style: DesignSystemTextStyle.headline1,
-                maxLines: 2,
               ),
-              _buildDataText('Category: ', widget.mealDetailData.strCategory),
-              _buildDataText('Area: ', widget.mealDetailData.strArea),
-              Row(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: isFavorite ? Colors.red : null,
-                    ),
-                    onPressed: _toggleFavorite,
-                  ),
-                  Text(
-                    isFavorite ? 'Added to favorites' : 'Add to favorites',
-                    style: DesignSystemTextStyle.caption2,
-                  ),
-                ],
+              _buildDataText('Category: ', mealDetailData.strCategory),
+              _buildDataText('Area: ', mealDetailData.strArea),
+              BlocBuilder<FavoriteCubit, bool>(
+                builder: (context, isFavorite) {
+                  return Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : null,
+                        ),
+                        onPressed: () {
+                          context.read<FavoriteCubit>().toggleFavorite();
+
+                          if (context.mounted) {
+                            final message = isFavorite
+                                ? 'Recipe added to favorites'
+                                : 'Recipe deleted from favorites';
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  message,
+                                  style: DesignSystemTextStyle.body1,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          isFavorite
+                              ? 'Added to favorites'
+                              : 'Add to favorites',
+                          style: DesignSystemTextStyle.caption2,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
