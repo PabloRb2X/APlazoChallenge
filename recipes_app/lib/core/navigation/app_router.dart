@@ -53,7 +53,7 @@ class AppRouter {
             CurvedAnimation(parent: animation, curve: Curves.easeInOut);
 
         final offsetAnimation = Tween<Offset>(
-          begin: const Offset(0, 0.1), // desde abajo
+          begin: const Offset(0, 0.1),
           end: Offset.zero,
         ).animate(curved);
 
