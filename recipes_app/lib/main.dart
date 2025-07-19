@@ -8,15 +8,21 @@ import 'package:recipes_app/features/main_recipes/domain/usecases/fetch_all_meal
 import 'package:recipes_app/features/main_recipes/presentation/bloc/meal_bloc.dart';
 import 'package:recipes_app/features/main_recipes/presentation/pages/meal_page.dart';
 import 'package:recipes_app/core/navigation/app_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'core/dependency_injection/injection_container.dart' as di;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final client = http.Client();
   final dataSource = MealDataSource(client);
   final repository = MealRepositoryImpl(dataSource);
   final usecase = FetchAllMealsUseCase(repository);
-  di.init();
   AppRouter.setupRouter();
+
+  final prefs = await SharedPreferences.getInstance();
+
+  di.init(prefs); // pasa prefs ya resuelto
 
   runApp(MyApp(usecase));
 }

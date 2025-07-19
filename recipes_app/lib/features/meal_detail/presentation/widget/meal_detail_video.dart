@@ -14,7 +14,7 @@ class MealDetailVideo extends StatefulWidget {
 }
 
 class _MealDetailVideo extends State<MealDetailVideo> {
-  late YoutubePlayerController? _controller;
+  YoutubePlayerController? _controller;
 
   @override
   void initState() {
@@ -38,7 +38,8 @@ class _MealDetailVideo extends State<MealDetailVideo> {
   Widget build(BuildContext context) {
     final soundestController = _controller;
 
-    if (soundestController != null) {
+    if (soundestController != null &&
+        (widget.mealDetailData.strYoutube?.isNotEmpty ?? false)) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: DesignSystemDimension.spacing_4,

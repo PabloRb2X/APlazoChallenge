@@ -1,10 +1,8 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes_app/core/design_system/design_system_dimension.dart';
 import 'package:recipes_app/core/design_system/design_system_text_style.dart';
 import 'package:recipes_app/features/main_recipes/domain/entities/meal.dart';
 import 'package:recipes_app/features/main_recipes/presentation/miscelaneous/meal_constants.dart';
-import 'package:recipes_app/core/navigation/app_router.dart';
 import 'package:recipes_app/features/main_recipes/presentation/navigation/meals_wireframe.dart';
 
 class MealRecipe extends StatelessWidget {
