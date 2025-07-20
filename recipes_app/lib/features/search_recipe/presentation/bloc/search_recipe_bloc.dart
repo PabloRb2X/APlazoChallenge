@@ -12,7 +12,11 @@ class SearchRecipeBloc extends Bloc<SearchRecipeEvent, SearchRecipeState> {
       try {
         final detail = await useCase(event.name);
 
-        emit(SearchRecipeLoaded(detail));
+        if (detail.isNotEmpty) {
+          emit(SearchRecipeLoaded(detail));
+        } else {
+          emit(SearchRecipeLoadedEmpty());
+        }
       } catch (e) {
         emit(SearchRecipeError(e.toString()));
       }

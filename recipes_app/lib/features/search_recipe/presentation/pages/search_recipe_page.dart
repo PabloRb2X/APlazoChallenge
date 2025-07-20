@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipes_app/core/design_system/design_system_dimension.dart';
 import 'package:recipes_app/core/design_system/design_system_text_style.dart';
 import 'package:recipes_app/core/design_system/full_screen_loader.dart';
 import 'package:recipes_app/features/main_recipes/domain/entities/meal.dart';
@@ -8,6 +9,7 @@ import 'package:recipes_app/features/main_recipes/presentation/widgets/meal_reci
 import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_bloc.dart';
 import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_event.dart';
 import 'package:recipes_app/features/search_recipe/presentation/bloc/search_recipe_state.dart';
+import 'package:recipes_app/features/search_recipe/presentation/widgets/search_recipe_empty.dart';
 import 'package:recipes_app/features/search_recipe/presentation/widgets/search_recipe_error_view.dart';
 import 'dart:async';
 
@@ -79,7 +81,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(DesignSystemDimension.spacing_4),
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
@@ -126,6 +128,8 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                         );
                       },
                     );
+                  } else if (state is SearchRecipeLoadedEmpty) {
+                    return const SearchRecipeEmptyView();
                   } else if (state is SearchRecipeError) {
                     return SearchRecipeErrorView(
                       mealName: controller.text,

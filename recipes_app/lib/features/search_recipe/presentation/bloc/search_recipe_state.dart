@@ -12,6 +12,8 @@ class SearchRecipeLoaded extends SearchRecipeState {
   SearchRecipeLoaded(this.mealsDetail);
 }
 
+class SearchRecipeLoadedEmpty extends SearchRecipeState {}
+
 class SearchRecipeError extends SearchRecipeState {
   final String message;
 
